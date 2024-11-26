@@ -3,26 +3,25 @@ import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
   const [socket, setSocket] = useState<WebSocket | null>(null);
   
-
   const inputVal = useRef();
 
   function handleSubmit(){
-    console.log("Input ref value",inputVal.current.value);
-    
-    const message = inputVal.current?.value;
+    if(!socket){
+      return "No socket available";
+    }
+    const message = inputVal.current.value;
 
-    if(message == 'ping'){
-      console.log("GOnna Pinged msh");
-      console.log("SOCKET INSDI E HANFLESUMB", socket);
+    if(message === "ping"){
+      console.log("Gonna Pinged msg", message);
+      console.log("SOCKET Inside ping", socket);
       
-      socket?.send('Pong')
+      socket.send(message)
     }else{
       console.log("Ni hua");
       
-      socket?.send("Ni hua")
+      socket.send(message)
     }
 
   }
@@ -33,12 +32,17 @@ function App() {
     
     setSocket(ws);
 
+    ws.onmessage = (ev) =>{
+      console.log("Massage", ev.data);   
+      alert(ev.data)
+    }
+
   },[])
 
   return (
     <>
     <div>
-      <input type="text" ref={inputVal} />
+      <input type="text" ref={inputVal} placeholder='Message' />
       <button onClick={handleSubmit}>Submit</button>
     </div>
     </>
