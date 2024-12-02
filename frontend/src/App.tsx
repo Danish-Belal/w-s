@@ -4,6 +4,7 @@ import './App.css'
 
 function App() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [message, setmessage] = useState(["Hello Hii there"]);
   
   const inputVal = useRef("");
 
@@ -15,18 +16,7 @@ function App() {
     }
     const message = inputVal.current?.value;
     console.log("Message in input box", message);
-    
-
-    if(message === "ping"){
-      console.log("Gonna Pinged msg", message);
-      console.log("SOCKET Inside ping", socket);
-      
-      socket.send(message)
-    }else{
-      console.log("Ni hua");
-      
-      socket.send(message)
-    }
+    socket.send(message);
 
   }
 
@@ -37,17 +27,29 @@ function App() {
     setSocket(ws);
 
     ws.onmessage = (ev) =>{
-      console.log("Massage", ev.data);   
-      alert(ev.data)
+      setmessage( m=> [...m, ev.data]);
     }
+
+    return () => {
+      ws.close();
+    };
 
   },[])
 
   return (
     <>
     <div>
+    
       <div className='chat-box'>
-        <div className='msg-display'></div>
+
+      <div className='msg-display'>
+        {message.map(message => <div className='m-8'> 
+          <span className='text-msg'>            
+            {message} 
+          </span>
+        </div>)}
+      </div>
+      
         <div className='input-msg'>
           <input className='input-text' type='text' placeholder='message...' ref={inputVal} />
           <button className='submit-button' onClick={handleSubmit}>Submit</button>

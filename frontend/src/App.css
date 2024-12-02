@@ -4,15 +4,27 @@
   background-color: rgb(231, 225, 225);
   margin: auto;
   margin-top: 80px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
+  /* display: flex; */
+  /* justify-content: space-evenly; */
+  /* align-items: flex-end; */
+}
+
+.text-msg{
+  border: 2px solid black;
+  border-radius:5px;
+  margin-left: 4px;
+  background-color: #005C4B;
+  margin-bottom: 5px;
+  color: aliceblue;
+
 }
 
 .input-msg{
   width: 40vw;
   background-color: rgb(227, 217, 217);
+  margin-top: 118%;
 }
+
 .input-text{
   width: 70%;
   height: 35px;
